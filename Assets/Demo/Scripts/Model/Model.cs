@@ -54,6 +54,13 @@ public class Model : MonoBehaviour
     public TextAsset[] jsonFiles; // 在编辑器中拖动初始化
     private List<JsonModel[]> jsonDataList = new List<JsonModel[]>();
     
+    public static List<string> DeviceNames = new List<string>()
+    {
+        "WT901BLE67(E9:8A:1A:DD:D5:28)",
+        "WT901BLE67(C1:AA:08:9C:D1:14)",
+        "WTSDCL(FE:D5:86:66:1D:7C)",
+    };
+    
     public void LoadData()
     {
         // 读取JSON文件内容
@@ -67,5 +74,10 @@ public class Model : MonoBehaviour
                 jsonDataList.Add(jsonData);
             }
         }
+    }
+    
+    public JsonModel[] GetFileDataList(int index)
+    {
+        return jsonDataList[index];
     }
 }

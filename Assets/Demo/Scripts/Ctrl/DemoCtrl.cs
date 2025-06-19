@@ -1,18 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DemoCtrl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Dropdown deviceDropdown;
+    public Dropdown fileDropdown;
+    private Model _model;
+    private int _nowSelectedDeviceIndex = 0;
+    public Mesh[] deviceMeshs;
+    public MeshFilter deviceMeshFilter;
+    
+    public TMP_Text quaternion0_Text;
+    public TMP_Text quaternion1_Text;
+    public TMP_Text quaternion2_Text;
+    public TMP_Text quaternion3_Text;
+    public TMP_Text lineNumber_Text;
+    
+    private void Start()
     {
-        
+        _model= GetComponent<Model>();
+        deviceDropdown.onValueChanged.AddListener(ChangeDevice);
+        fileDropdown.onValueChanged.AddListener(ChangeFile);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeFile(int value)
     {
+        var data = _model.GetFileDataList(value);
+    }
+    
+    public void ChangeDevice(int value)
+    {
+        _nowSelectedDeviceIndex = value;
+        deviceMeshFilter.mesh = deviceMeshs[_nowSelectedDeviceIndex];
+    }
+
+    private IEnumerator LoopShow(JsonModel model)
+    {
+        quaternion0_Text.text = model.Quaternion0.ToString("F4");
+        quaternion1_Text.text = model.Quaternion1.ToString("F4");
+        quaternion2_Text.text = model.Quaternion2.ToString("F4");
+        quaternion3_Text.text = model.Quaternion3.ToString("F4");
+        lineNumber_Text.text = model.Timestamp;
+        
+        yield return new WaitForSeconds(10);
         
     }
+    
 }
