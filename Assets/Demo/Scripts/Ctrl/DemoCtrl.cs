@@ -20,6 +20,8 @@ public class DemoCtrl : MonoBehaviour
     public TMP_Text quaternion3_Text;
     public TMP_Text lineNumber_Text;
     
+    
+    
     private void Start()
     {
         _model= GetComponent<Model>();
@@ -38,12 +40,8 @@ public class DemoCtrl : MonoBehaviour
         deviceMeshFilter.mesh = deviceMeshs[_nowSelectedDeviceIndex];
     }
 
-    private IEnumerator LoopShow(JsonModel model)
+    private IEnumerator LoopShow(DataEntry model)
     {
-        quaternion0_Text.text = model.Quaternion0.ToString("F4");
-        quaternion1_Text.text = model.Quaternion1.ToString("F4");
-        quaternion2_Text.text = model.Quaternion2.ToString("F4");
-        quaternion3_Text.text = model.Quaternion3.ToString("F4");
         lineNumber_Text.text = model.Timestamp;
         
         yield return new WaitForSeconds(10);

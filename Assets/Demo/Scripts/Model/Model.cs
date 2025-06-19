@@ -2,57 +2,40 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JsonModel 
+public class DeviceData
+{
+    public double Quaternion0 { get; set; }
+
+    public double Quaternion1 { get; set; }
+
+    public double Quaternion2 { get; set; }
+
+    public double Quaternion3 { get; set; }
+
+    public bool Interpolated { get; set; }
+
+    // 以下字段在某些设备条目中才会出现
+    public string OriginalTimestamp { get; set; }
+
+    public double? TimeDiffMs { get; set; }
+}
+
+public class DataEntry
 {
     public string Timestamp { get; set; }
 
-    public string DeviceName { get; set; }
+    public string Datetime { get; set; }
 
-    public float AccelerationX_g { get; set; }
-
-    public float AccelerationY_g { get; set; }
-
-    public float AccelerationZ_g { get; set; }
-
-    public float AngularVelocityX_deg_per_s { get; set; }
-
-    public float AngularVelocityY_deg_per_s { get; set; }
-
-    public float AngularVelocityZ_deg_per_s { get; set; }
-
-    public float AngleX_deg { get; set; }
-
-    public float AngleY_deg { get; set; }
-
-    public float AngleZ_deg { get; set; }
-
-    public float MagneticFieldX_uT { get; set; }
-
-    public float MagneticFieldY_uT { get; set; }
-
-    public float MagneticFieldZ_uT { get; set; }
-
-    public float Quaternion0 { get; set; }
-
-    public float Quaternion1 { get; set; }
-
-    public float Quaternion2 { get; set; }
-
-    public float Quaternion3 { get; set; }
-
-    public float Temperature_C { get; set; }
-
-    public string Version { get; set; }
-
-    public int BatteryLevel_percent { get; set; }
+    public Dictionary<string, DeviceData> Devices { get; set; }
 }
+
 
 
 
 public class Model : MonoBehaviour
 {
     public TextAsset[] jsonFiles; // 在编辑器中拖动初始化
-    private List<JsonModel[]> jsonDataList = new List<JsonModel[]>();
+    private List<DataEntry[]> jsonDataList = new List<DataEntry[]>();
     
     public static List<string> DeviceNames = new List<string>()
     {
@@ -70,13 +53,13 @@ public class Model : MonoBehaviour
             {
                 var jsonContent = jsonFile.text;
                 // 解析JSON内容为JsonModel数组
-                var jsonData = JsonUtility.FromJson<JsonModel[]>(jsonContent);
+                var jsonData = JsonUtility.FromJson<DataEntry[]>(jsonContent);
                 jsonDataList.Add(jsonData);
             }
         }
     }
     
-    public JsonModel[] GetFileDataList(int index)
+    public DataEntry[] GetFileDataList(int index)
     {
         return jsonDataList[index];
     }
